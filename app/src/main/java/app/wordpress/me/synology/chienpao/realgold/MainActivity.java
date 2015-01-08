@@ -10,6 +10,9 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
 
+import java.io.IOException;
+import java.net.URL;
+
 
 public class MainActivity extends ActionBarActivity {
 
@@ -18,13 +21,30 @@ public class MainActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        String html = "<html><head><title>First parse</title></head>"
-                + "<body><p>Parsed HTML into a doc.</p></body></html>";
-        Document doc = Jsoup.parse(html);
-        Elements title = doc.select("title");
-        Log.i("Pao", title.get(0).text());
+        parseHTML();
     }
 
+    public void parseHTML(){
+
+        new Thread(new Runnable(){
+            @Override
+            public void run() {
+                URL url = null;
+                // TODO Auto-generated method stub
+
+                    Document doc = null;
+                    try {
+                        doc = Jsoup.connect("http://rate.bot.com.tw/Pages/Static/UIP005.zh-TW.htm").get();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+
+                    Elements test = doc.getElementsByClass("goldName0");
+                    Log.i("Pao", test.text());
+
+            }
+        }).start();
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
