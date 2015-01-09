@@ -10,23 +10,16 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
-import org.jsoup.select.Elements;
-
-import java.io.IOException;
-import java.net.URL;
-
 
 public class MainActivity extends ActionBarActivity {
 
-    public String temp = "";
-    private Thread mThread;
+    //public String temp = "";
+    //private Thread mThread;
+    private JsoupThread jsoupThread;
     private Handler handler;
     private TextView textView;
     private Button button;
-    private boolean running = true;
+    //private boolean running = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,28 +33,8 @@ public class MainActivity extends ActionBarActivity {
     }
 
     public void parseHTML() {
-
-        running = true;
-        mThread = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                URL url = null;
-                Document doc = null;
-                try {
-                    doc = Jsoup.connect("http://rate.bot.com.tw/Pages/Static/UIP005.zh-TW.htm").get();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                Element id = doc.getElementById("GoldBankBookForTWD");
-                Elements tables = id.getElementsByClass("decimal");
-
-                temp = tables.text().substring(12,16);
-                running = false;
-                Log.i("Pao", temp);
-            }
-        });
-        mThread.start();
-
+        jsoupThread = new JsoupThread();
+        jsoupThread.start();
     }
 
     public void handleText(){
@@ -70,9 +43,9 @@ public class MainActivity extends ActionBarActivity {
             @Override
             public void run() {
                 while(true) {
-                    Log.i("Pao", mThread.getState().toString());
-                    textView.setText(temp);
-                    if(running == false)
+                    Log.i("Pao", jsoupThread.getState().toString());
+                    textView.setText(JsoupThread.temp);
+                    if(jsoupThread.running == false)
                         break;
                 }
             }
