@@ -9,13 +9,17 @@ import org.jsoup.select.Elements;
 
 import java.io.IOException;
 import java.net.URL;
+import java.text.DateFormat;
+import java.util.Date;
 
 /**
  * Created by pao on 1/9/15.
  */
 public class JsoupThread extends Thread{
 
-    static public String temp = "";
+    static public String sellPrice;
+    static public String buyPrice;
+    static public String updateTime;
     static public boolean running;
 
     @Override
@@ -31,8 +35,11 @@ public class JsoupThread extends Thread{
         }
         Element id = doc.getElementById("GoldBankBookForTWD");
         Elements tables = id.getElementsByClass("decimal");
-        temp = tables.text().substring(12,16);
+        sellPrice = tables.text().substring(12,16);
+        buyPrice = tables.text().substring(29,33);
+        updateTime = DateFormat.getDateTimeInstance().format(new Date());
         running = false;
-        Log.i("Pao", temp);
+        Log.i("Pao", "SellPrice:"+ sellPrice);
+        Log.i("Pao", "BuyPrice:" + buyPrice);
     }
 }

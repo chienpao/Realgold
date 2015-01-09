@@ -15,14 +15,19 @@ public class MainActivity extends ActionBarActivity {
 
     private JsoupThread jsoupThread;
     private Handler handler;
-    private TextView textView;
+    private TextView textView_sellPrice;
+    private TextView textView_buyPrice;
+    private TextView textView_updateTime;
     private Button button;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        textView = (TextView)findViewById(R.id.test);
+        textView_sellPrice = (TextView)findViewById(R.id.textView_sellPrice);
+        textView_buyPrice = (TextView)findViewById(R.id.textView_buyPrice);
+        textView_updateTime = (TextView)findViewById(R.id.textView_updateTime);
+
         button = (Button)findViewById(R.id.button);
 
         parseHTML();
@@ -41,7 +46,9 @@ public class MainActivity extends ActionBarActivity {
             public void run() {
                 while(true) {
                     Log.i("Pao", jsoupThread.getState().toString());
-                    textView.setText(JsoupThread.temp);
+                    textView_sellPrice.setText(JsoupThread.sellPrice);
+                    textView_buyPrice.setText(JsoupThread.buyPrice);
+                    textView_updateTime.setText(JsoupThread.updateTime);
                     if(jsoupThread.running == false)
                         break;
                 }
