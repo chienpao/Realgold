@@ -13,13 +13,10 @@ import android.widget.TextView;
 
 public class MainActivity extends ActionBarActivity {
 
-    //public String temp = "";
-    //private Thread mThread;
     private JsoupThread jsoupThread;
     private Handler handler;
     private TextView textView;
     private Button button;
-    //private boolean running = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
